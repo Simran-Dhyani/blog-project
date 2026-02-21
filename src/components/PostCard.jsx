@@ -8,10 +8,19 @@ function PostCard({
         <Link to={`/post/${$id}`}>
             <div className="bg-gray-100 w-full rounded-lg p-4">
                 <div className="w-full justify-center mb-4">
-                    <img src={service.getFileDownload(featuredImage)} alt={title}
-                    className="rounded-xl"
-                    ></img>
+              {featuredImage ? (
+              <img
+              src={service.getFileDownload(featuredImage)}
+              alt={title}
+              className="rounded-xl"
+              />
+              ) : (
+              <div className="h-40 bg-gray-300 rounded-xl flex items-center justify-center text-gray-600">
+              No Image
+              </div>
+             )}
 
+                  
                 </div>
                 <h2>{title}</h2>
 

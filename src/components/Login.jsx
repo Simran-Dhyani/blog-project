@@ -15,7 +15,7 @@ function Login(){
         
             const login = async (data)=>
             {
-                setError=("");
+                setError("");
                 try {
                     const session=await authService.login(data);
                     if(session){
@@ -51,7 +51,7 @@ return(
                     </Link>
         </p>
          {error && <p className="text-red-600 mt-8 text-center">{error}</p>}
-         <form onSubmit={handleSubmit(Login)} className="mt-8">
+         <form onSubmit={handleSubmit(login)} className="mt-8">
             <div>
                 <Input
                 label="Email:"

@@ -1,5 +1,5 @@
 import React from "react";
-import {SignUp as SignUpComponent}from "../components";
+import {SignUp as SignUpComponent}from "..";
 function SignUp(){
     return (
     <div className="py-8">

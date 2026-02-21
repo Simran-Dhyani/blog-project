@@ -1,5 +1,6 @@
 import conf from "../conf/conf";
 import { Client, ID,Databases,Storage,Query} from "appwrite";
+
 export class Service{ 
     client=new Client();
     databases;
@@ -9,14 +10,14 @@ export class Service{
          this.client
             .setEndpoint(conf.appwriteUrl)
             .setProject(conf.appwriteProjectId);
-          this.databases=new TablesDBs(this.client);
+          this.databases=new Databases(this.client);
           this.bucket=new Storage(this.client);
     }
     async createPost({title,slug,content,featuredImage,status,userId}){
         try {
-            await this.databases.createDocument(
+             return await this.databases.createDocument(
                 conf.appwriteDatabaseId,
-                conf.appwriteTableId,
+                conf.appwriteCollectionId,
                 slug,
                 {
                     title,
@@ -34,7 +35,7 @@ export class Service{
         try {
             return await this.databases.updateDocument(
                 conf.appwriteDatabaseId,
-                conf.appwriteTableId,
+                conf.appwriteCollectionId,
                 slug,
                 {
                     title,
@@ -54,7 +55,7 @@ export class Service{
         try {
             await this.databases.deleteDocument(
                 conf.appwriteDatabaseId,
-                conf.appwriteTableId,
+                conf.appwriteCollectionId,
                 slug
             )
             return true;
@@ -69,7 +70,7 @@ export class Service{
         try {
            return await this.databases.getDocument(
                 conf.appwriteDatabaseId,
-                conf.appwriteTableId,
+                conf.appwriteCollectionId,
                 slug
             )
         } catch (error) {
@@ -79,13 +80,13 @@ export class Service{
     }
     async getPosts(queries=[Query.equal("status","active")]){
         try {
-            await this.databases.listDocuments(
+            return await this.databases.listDocuments(
                 conf.appwriteDatabaseId,
-                conf.appwriteTableId,
-                queries,
-            
+                conf.appwriteCollectionId,
+                queries
 
-            )
+
+            );
         } catch (error) {
             throw error;
     
