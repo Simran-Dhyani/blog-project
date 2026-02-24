@@ -24,11 +24,7 @@ export default function Post() {
                         return;
                     }
 
-                    if (userData && fetchedPost.userId !== userData.$id) {
-                        navigate("/");
-                        return;
-                    }
-
+                   
                     setPost(fetchedPost);
                 })
                 .catch(() => navigate("/"));
