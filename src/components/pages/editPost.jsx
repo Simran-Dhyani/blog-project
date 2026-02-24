@@ -1,33 +1,41 @@
 import React, { useEffect, useState } from "react";
-import {PostCard,Container} from "..";
+
+import { Container, PostForm } from "..";
 import service from "../../appwrite/config";
 import { useNavigate, useParams } from "react-router-dom";
-function EditPosts(){
-    const [post,setPosts]=useState()
-    const {slug}=useParams;
-    const navigate=useNavigate();
-    useEffect(()=>{
-        if(slug){
-            service.getPosts(slug).then((post)=>{
-                if(post){
-                    setPosts(post)
-                }
-            })
+import { useSelector } from "react-redux";
+function EditPosts() {
+  const [post, setPost] = useState(null);
+  const { slug } = useParams();
+  const navigate = useNavigate();
+  const userData = useSelector((state) => state.auth?.userData);
 
-        }else{
-            navigate("/")
+  useEffect(() => {
+    if (!slug || !userData?.$id) {
+      navigate("/");
+      return;
+    }
+       service
+      .getPost(slug)
+      .then((fetchedPost) => {
+        if (!fetchedPost || fetchedPost.userId !== userData.$id) {
+          navigate("/");
+          return;
         }
+ setPost(fetchedPost);
+      })
+      .catch(() => navigate("/"));
+  }, [slug, navigate, userData]);
 
-
-    },[slug,navigate])
-    return post?(
-        <div className="py-8">
-            <Container>
-                <PostCard post={post}/>
-            </Container>
-        </div>
-
-    ):null
-
+  return post ? (
+    <div className="py-8">
+      <Container>
+        <PostForm post={post} />
+      </Container>
+    </div>
+  ) : null;
 }
-export default EditPosts
+export default EditPosts;
+
+
+   

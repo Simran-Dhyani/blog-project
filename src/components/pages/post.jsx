@@ -16,12 +16,24 @@ export default function Post() {
 
     useEffect(() => {
         if (slug) {
-            service.getPost(slug).then((post) => {
-                if (post) setPost(post);
-                else navigate("/");
-            });
+             service
+                .getPost(slug)
+                .then((fetchedPost) => {
+                    if (!fetchedPost) {
+                        navigate("/");
+                        return;
+                    }
+
+                    if (userData && fetchedPost.userId !== userData.$id) {
+                        navigate("/");
+                        return;
+                    }
+
+                    setPost(fetchedPost);
+                })
+                .catch(() => navigate("/"));
         } else navigate("/");
-    }, [slug, navigate]);
+    }, [slug, navigate,userData]);
 
     const deletePost = () => {
         service.deletePost(post.$id).then((status) => {

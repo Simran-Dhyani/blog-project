@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { Container, PostCard } from "..";
 import service from "../../appwrite/config";
+import { Query } from "appwrite";
+import { useSelector } from "react-redux";
 
 function AllPosts() {
   const [posts, setPosts] = useState([]);
+   const userData = useSelector((state) => state.auth?.userData);
 
   useEffect(() => {
     service
-      .getPosts()
+      .getPosts([Query.equal("status", "active"), Query.equal("userId", userData.$id)])
       .then((res) => {
-        console.log("ALL POSTS 👉", res);
-
+        
         if (res && res.documents) {
           setPosts(res.documents);
         }
@@ -18,7 +20,7 @@ function AllPosts() {
       .catch((error) => {
         console.error("GET POSTS ERROR ❌", error);
       });
-  }, []);
+  }, [userData]);
 
   return (
     <div className="w-full py-8">
