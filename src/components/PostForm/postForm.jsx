@@ -54,7 +54,7 @@ export default function PostForm({ post }) {
 
  
   const submit = async (data) => {
-   console.log("FORM DATA:", data);
+   
     if (!userData) return;
 
     try {
@@ -72,12 +72,12 @@ export default function PostForm({ post }) {
 
         const dbPost = await service.updatePost(post.$id, {
           title: data.title,
-          slug: data.slug,
+         
           content: data.content,
           status: data.status,
           featuredImage: fileId,
         });
-        console.log("DB POST:", dbPost); 
+       
 
         if (dbPost) navigate(`/post/${dbPost.$id}`);
       }
@@ -120,14 +120,14 @@ export default function PostForm({ post }) {
           label="Title :"
           placeholder="Title"
           className="mb-4"
-          {...register("title", { required: true })}
+          {...register("title", { required:true})}
         />
 
         <Input
           label="Slug :"
           placeholder="Slug"
           className="mb-4"
-          {...register("slug", { required: true })}
+          {...register("slug", { required: !post})}
           onInput={(e) =>
             setValue("slug", slugTransform(e.currentTarget.value), {
               shouldValidate: true,

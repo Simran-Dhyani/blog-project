@@ -9,13 +9,23 @@ function EditPosts() {
   const { slug } = useParams();
   const navigate = useNavigate();
   const userData = useSelector((state) => state.auth?.userData);
+  const authStatus = useSelector((state) => state.auth.status);
 
   useEffect(() => {
-    if (!slug || !userData?.$id) {
+    if (!slug ) {
       navigate("/");
       return;
     }
-       service
+        if (!authStatus) {
+      navigate("/login");
+      return;
+    }
+
+    if (!userData?.$id) {
+      return;
+    }
+
+    service
       .getPost(slug)
       .then((fetchedPost) => {
         if (!fetchedPost || fetchedPost.userId !== userData.$id) {
@@ -25,7 +35,7 @@ function EditPosts() {
  setPost(fetchedPost);
       })
       .catch(() => navigate("/"));
-  }, [slug, navigate, userData]);
+  }, [slug, navigate, userData,authStatus]);
 
   return post ? (
     <div className="py-8">

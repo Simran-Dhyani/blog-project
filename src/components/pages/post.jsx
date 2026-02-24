@@ -31,14 +31,28 @@ export default function Post() {
         } else navigate("/");
     }, [slug, navigate,userData]);
 
-    const deletePost = () => {
-        service.deletePost(post.$id).then((status) => {
+     const deletePost = async () => {
+        try {
+            const status = await service.deletePost(post.$id);
             if (status) {
                 service.deleteFile(post.featuredImage);
+                if (post.featuredImage) {
+                    try {
+                        await service.deleteFile(post.featuredImage);
+                    } catch (fileError) {
+                        console.error("DELETE IMAGE ERROR ❌", fileError);
+                    }
+                }
+           
+                
                 navigate("/");
             }
-        });
+         } catch (error) {
+            console.error("DELETE POST ERROR ❌", error);
+        }
     };
+
+    
 
     return post ? (
         <div className="py-8">
