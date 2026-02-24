@@ -2,7 +2,7 @@ import React from "react";
 import service from "../appwrite/config";
 import { Link } from "react-router-dom";
 function PostCard({
-    $id,title,featuredImage
+    $id,title,featuredImage,authorName
 }){
     return(
         <Link to={`/post/${$id}`}>
@@ -23,6 +23,7 @@ function PostCard({
                   
                 </div>
                 <h2>{title}</h2>
+                <p className="text-sm text-gray-600 mt-1">Posted by {authorName || "Unknown author"}</p>
 
             </div>
         </Link>
