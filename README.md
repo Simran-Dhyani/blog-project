@@ -2,9 +2,6 @@
 
 A modern and interactive frontend blog application built with React and Vite. Users can sign up, log in, write blogs, view their own blogs, explore all blogs, edit or delete posts, save blogs, and add images or videos to make their content more engaging.
 
-## 🔗 Live Demo
-
-Live demo link: Add your deployed project link here.
 
 ## ⚡ Features
 
